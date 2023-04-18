@@ -1,9 +1,11 @@
+import {generateId} from './src/id.js'
+
 const allTodos = [
   {
-    id: 1,
+    id: generateId(),
     title: 'my task 1',
     isComplete: false,
-    dueDate: new Date('2024-03-12')
+    dueDate: new Date('2024-12-31')
   },
 ]
 const filters = {
@@ -76,5 +78,20 @@ function createElementForTodo(todo) {
 
   return newEl
 }
+
+const addTaskInput = document.querySelector('#add-task-input')
+const addTaskButton = document.querySelector('#add-task-button')
+addTaskButton.addEventListener('click', () => {
+  const newTodo = {
+    id: generateId(),
+    title: addTaskInput.value,
+    isComplete: false,
+    dueDate: new Date('2024-12-31')
+  }
+  allTodos.push(newTodo)
+
+  addTaskInput.value = ''
+  renderTodos()
+})
 
 renderTodos()
