@@ -1,36 +1,22 @@
-import {generateId} from './src/id.js'
-
-const allTodos = [
-  {
-    id: generateId(),
-    title: 'my task 1',
-    isComplete: false,
-    dueDate: new Date('2024-12-31')
-  },
-]
-const filters = {
-  isComplete: false,
-}
+import {addTask, deleteTask, getTasksToDisplay, setIsCompleteFilter, toggleTask} from './src/store.js'
 
 const todosEl = document.querySelector('#todos')
 const selectIsComplete = document.querySelector('#select-is-complete')
 selectIsComplete.addEventListener('change', event => {
-  filters.isComplete = (event.target.value === 'complete')
-  renderTodos()
+  setIsCompleteFilter(event.target.value === 'complete')
+  renderTasks()
 })
 
-function renderTodos() {
+function renderTasks() {
   // clear all
   while (todosEl.firstChild !== null) {
     todosEl.removeChild(todosEl.firstChild)
   }
 
-  // apply filters
-  const todosToDisplay = allTodos
-    .filter(todo => todo.isComplete === filters.isComplete)
+  const tasksToDisplay = getTasksToDisplay()
 
   // check if nothing to display
-  if (todosToDisplay.length === 0) {
+  if (tasksToDisplay.length === 0) {
     const emptyListWarningEl = document.createElement('li')
     emptyListWarningEl.innerText = 'No tasks exist or match the criteria'
     todosEl.appendChild(emptyListWarningEl)
@@ -38,8 +24,8 @@ function renderTodos() {
   }
 
   // rerender all
-  todosToDisplay.forEach(todo => {
-    const newEl = createElementForTodo(todo)
+  tasksToDisplay.forEach(task => {
+    const newEl = createElementForTodo(task)
     todosEl.appendChild(newEl)
   })
 }
@@ -47,6 +33,7 @@ function renderTodos() {
 function createElementForTodo(todo) {
   // container
   const newEl = document.createElement('li')
+  newEl.setAttribute('class', 'flex flex-row gap-2 my-2')
 
   // checkbox
   const newCheckbox = document.createElement('input')
@@ -57,41 +44,48 @@ function createElementForTodo(todo) {
     newCheckbox.setAttribute('checked', true)
   }
   newCheckbox.addEventListener('click', () => {
-    const currentTodo = allTodos.find(({id}) => id === todo.id)
-    if (currentTodo === undefined) {
-      console.error('todo is not found with id:', todo.id)
-      return
-    }
-    currentTodo.isComplete = !currentTodo.isComplete
-    renderTodos()
+    toggleTask(todo.id)
+    renderTasks()
   })
   newEl.appendChild(newCheckbox)
 
   // label
   const newLabel = document.createElement('label')
   newLabel.setAttribute('for', `todo-${todo.id}`)
+  newLabel.setAttribute('class', 'flex-1 self-center')
   newLabel.innerText = todo.title
   newEl.appendChild(newLabel)
 
   // due date badge
   // const newDueDate
 
+  // delete button
+  const deleteButton = document.createElement('button')
+  deleteButton.innerText = 'Delete'
+  deleteButton.setAttribute('class', 'bg-rose-600 p-2 rounded-sm')
+  deleteButton.addEventListener('click', () => {
+    deleteTask(todo.id)
+    renderTasks()
+  })
+  newEl.appendChild(deleteButton)
+
   return newEl
 }
 
 const addTaskInput = document.querySelector('#add-task-input')
 const addTaskButton = document.querySelector('#add-task-button')
-addTaskButton.addEventListener('click', () => {
-  const newTodo = {
-    id: generateId(),
-    title: addTaskInput.value,
-    isComplete: false,
-    dueDate: new Date('2024-12-31')
+addTaskInput.addEventListener('keyup', event => {
+  if (event.key === 'Enter') {
+    addTaskAndUpdateUi()
   }
-  allTodos.push(newTodo)
-
-  addTaskInput.value = ''
-  renderTodos()
 })
+addTaskButton.addEventListener('click', () => {
+  addTaskAndUpdateUi()
+})
+function addTaskAndUpdateUi() {
+  addTask(addTaskInput.value)
+  addTaskInput.value = ''
+  renderTasks()
+}
 
-renderTodos()
+renderTasks()
