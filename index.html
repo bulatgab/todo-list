@@ -10,14 +10,15 @@
   <body>
     <script type="module" src="/main.js"></script>
     <div class="w-screen h-screen flex flex-col justify-center items-center bg-neutral-900 p-5">
-      <div class="w-96">
+      <div class="flex flex-row gap-2 w-96">
+        <input id="search-input" type="text" placeholder="Search..." aria-label="search task" class="flex-1 p-2 rounded-sm text-black">
         <select id="completeness-filter-select" aria-label="filter by completeness" class="bg-neutral-800 p-3 rounded-sm text-white">
           <option value="all">All</option>
           <option value="complete">Complete</option>
           <option value="incomplete" selected>Incomplete</option>
         </select>
       </div>
-      <div class="w-96 flex-1 relative bg-neutral-800 mt-5 p-3 rounded-sm text-white">
+      <div class="w-96 flex-1 bg-neutral-800 mt-5 px-3 py-1 rounded-sm text-white">
         <ul id="task-list">
           <!--<li>-->
           <!--  <input type="checkbox">-->
@@ -25,11 +26,11 @@
           <!--  <button>delete</button>-->
           <!--</li>-->
         </ul>
+      </div>
 
-        <div class="flex flex-row gap-2">
-          <input id="add-task-input" type="text" placeholder="Enter task label..." aria-label="Add new task" class="flex-1 p-2 rounded-sm text-black">
-          <button id="add-task-button" class="bg-lime-600 p-2 rounded-sm">Add task</button>
-        </div>
+      <div class="flex flex-row gap-2 w-96 bg-neutral-800 mt-5">
+        <input id="add-task-input" type="text" placeholder="Enter task label..." aria-label="Add new task" class="flex-1 p-2 rounded-sm">
+        <button id="add-task-button" class="bg-lime-600 p-2 rounded-sm text-white">Add task</button>
       </div>
     </div>
   </body>
