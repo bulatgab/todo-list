@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {generateId} from './id.js'
 
 const allTasks = [
@@ -5,19 +6,21 @@ const allTasks = [
     id: generateId(),
     title: 'my task 1',
     isComplete: false,
-    dueDate: new Date('2024-12-31')
+    dueDate: '2024-12-31',
   },
 ]
 
 const filters = {
-  completeness: 'incomplete',
+  completeness: 'all',
   query: '',
+  dueDate: 'all',
 }
 
 export function getTasksToDisplay() {
   return allTasks
     .filter(isMatchForCompletenessFilter)
     .filter(isMatchForSearchQuery)
+    .filter(isMatchForDueDateFilter)
 }
 
 function isMatchForCompletenessFilter(task) {
@@ -31,6 +34,25 @@ function isMatchForCompletenessFilter(task) {
 function isMatchForSearchQuery(task) {
   return task.title.trim().toLowerCase()
     .includes(filters.query.trim().toLowerCase())
+}
+
+function isMatchForDueDateFilter(task) {
+  const momentDate = moment(task.dueDate)
+  const today = moment().startOf('day')
+  const tomorrow = moment().add(1, 'day').startOf('day')
+
+  const isExpired = momentDate.isBefore(today)
+  const isToday = momentDate.isSame(today, 'day')
+  const isTomorrow = momentDate.isSame(tomorrow, 'day')
+  const isLater = momentDate.isAfter(tomorrow)
+
+  const showAll = filters.dueDate === 'all'
+  const showExpired = filters.dueDate === 'expired'
+  const showToday = filters.dueDate === 'today'
+  const showTomorrow = filters.dueDate === 'tomorrow'
+  const showLater = filters.dueDate === 'later'
+
+  return showAll || (showExpired && isExpired) || (showToday && isToday) || (showTomorrow && isTomorrow) || (showLater && isLater)
 }
 
 export function toggleTask(taskId) {
@@ -47,7 +69,7 @@ export function addTask(title) {
     id: generateId(),
     title,
     isComplete: false,
-    dueDate: new Date('2024-12-31')
+    dueDate: '2024-12-31',
   }
   allTasks.push(newTask)
 }
@@ -67,4 +89,8 @@ export function setCompletenessFilter(value) {
 
 export function setSearchQuery(value) {
   filters.query = value
+}
+
+export function setDueDateFilter(value) {
+  filters.dueDate = value
 }

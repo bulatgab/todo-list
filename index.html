@@ -11,16 +11,25 @@
     <script type="module" src="/main.js"></script>
     <div class="w-screen h-screen flex flex-col justify-center items-center bg-neutral-900 p-5">
 
-      <div class="flex flex-row gap-2 w-96">
+      <div class="flex flex-row gap-2 w-[30rem]">
         <input id="search-input" type="text" placeholder="Search..." aria-label="search task" class="flex-1 p-2 rounded-sm text-black">
+
         <select id="completeness-filter-select" aria-label="filter by completeness" class="bg-neutral-800 p-3 rounded-sm text-white">
-          <option value="all">All</option>
+          <option value="all" selected>Any status</option>
           <option value="complete">Complete</option>
-          <option value="incomplete" selected>Incomplete</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
+
+        <select id="due-date-filter-select" aria-label="filter by due date" class="bg-neutral-800 p-3 rounded-sm text-white">
+          <option value="all" selected>Any date</option>
+          <option value="expired">Expired</option>
+          <option value="today">Today</option>
+          <option value="tomorrow">Tomorrow</option>
+          <option value="later">Later</option>
         </select>
       </div>
 
-      <div class="w-96 flex-1 bg-neutral-800 mt-5 px-3 py-1 rounded-sm text-white">
+      <div class="flex-1 bg-neutral-800 mt-5 px-3 py-1 rounded-sm text-white w-[30rem]">
         <ul id="task-list">
           <!--<li>-->
           <!--  <input type="checkbox">-->
@@ -30,7 +39,7 @@
         </ul>
       </div>
 
-      <div class="flex flex-row gap-2 w-96 bg-neutral-800 mt-5">
+      <div class="flex flex-row gap-2 bg-neutral-800 mt-5 w-[30rem]">
         <input id="add-task-input" type="text" placeholder="Enter task label..." aria-label="Add new task" class="flex-1 p-2 rounded-sm">
         <button id="add-task-button" class="bg-lime-600 p-2 rounded-sm text-white">Add task</button>
       </div>
