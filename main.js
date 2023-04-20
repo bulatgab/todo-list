@@ -1,5 +1,5 @@
 import {addTask, setCompletenessFilter, setSearchQuery} from './src/store.js'
-import {renderTasks} from './src/render.js'
+import {renderTasks} from './src/renderTasks.js'
 
 const searchInput = document.querySelector('#search-input')
 searchInput.addEventListener('input', event => {

@@ -1,5 +1,5 @@
 import {deleteTask, toggleTask} from './store.js'
-import {renderTasks} from './render.js'
+import {renderTasks} from './renderTasks.js'
 
 export function createElementForTask(task) {
   const el = createTaskContainer()
