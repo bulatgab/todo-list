@@ -1,4 +1,4 @@
-import {addTask, setCompletenessFilter} from './src/store.js'
+import {addTask, setCompletenessFilter, setSearchQuery} from './src/store.js'
 import {renderTasks} from './src/render.js'
 
 const completenessFilterSelect = document.querySelector('#completeness-filter-select')
@@ -24,5 +24,11 @@ function addTaskAndUpdateUi() {
   addTaskInput.value = ''
   renderTasks()
 }
+
+const searchInput = document.querySelector('#search-input')
+searchInput.addEventListener('input', event => {
+  setSearchQuery(event.target.value)
+  renderTasks()
+})
 
 renderTasks()

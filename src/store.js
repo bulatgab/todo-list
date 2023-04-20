@@ -11,15 +11,26 @@ const allTasks = [
 
 const filters = {
   completeness: 'incomplete',
+  query: '',
 }
 
 export function getTasksToDisplay() {
+  return allTasks
+    .filter(isMatchForCompletenessFilter)
+    .filter(isMatchForSearchQuery)
+}
+
+function isMatchForCompletenessFilter(task) {
   const showAll = filters.completeness === 'all'
   const showIncompleteOnly = filters.completeness === 'incomplete'
   const showCompleteOnly = filters.completeness === 'complete'
 
-  return allTasks
-    .filter(todo => showAll || (showCompleteOnly && todo.isComplete) || (showIncompleteOnly && !todo.isComplete))
+  return showAll || (showCompleteOnly && task.isComplete) || (showIncompleteOnly && !task.isComplete)
+}
+
+function isMatchForSearchQuery(task) {
+  return task.title.trim().toLowerCase()
+    .includes(filters.query.trim().toLowerCase())
 }
 
 export function toggleTask(taskId) {
@@ -52,4 +63,8 @@ export function deleteTask(taskId) {
 
 export function setCompletenessFilter(value) {
   filters.completeness = value
+}
+
+export function setSearchQuery(value) {
+  filters.query = value
 }
