@@ -57,7 +57,7 @@ function createElementForTodo(todo) {
     newCheckbox.setAttribute('checked', true)
   }
   newCheckbox.addEventListener('click', () => {
-    const currentTodo = allTodos.find(todo => todo.id === todo.id)
+    const currentTodo = allTodos.find(({id}) => id === todo.id)
     if (currentTodo === undefined) {
       console.error('todo is not found with id:', todo.id)
       return
