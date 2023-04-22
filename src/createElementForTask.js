@@ -5,6 +5,7 @@ export function createElementForTask(task) {
   const el = createTaskContainer()
   el.appendChild(createCheckbox(task))
   el.appendChild(createLabel(task))
+  el.appendChild(createDueDateBadge(task))
   el.appendChild(createDeleteButton(task))
   return el
 }
@@ -35,6 +36,13 @@ function createLabel(task) {
   el.setAttribute('for', `task-${task.id}`)
   el.setAttribute('class', 'flex-1 self-center')
   el.innerText = task.title
+  return el
+}
+
+function createDueDateBadge(task) {
+  const el = document.createElement('span')
+  el.setAttribute('class', 'bg-neutral-600 rounded-2xl self-center px-2')
+  el.innerText = task.dueDate
   return el
 }
 

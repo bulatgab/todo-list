@@ -64,12 +64,12 @@ export function toggleTask(taskId) {
   currentTask.isComplete = !currentTask.isComplete
 }
 
-export function addTask(title) {
+export function addTask({title, dueDate}) {
   const newTask = {
     id: generateId(),
     title,
+    dueDate,
     isComplete: false,
-    dueDate: '2024-12-31',
   }
   allTasks.push(newTask)
 }

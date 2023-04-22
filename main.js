@@ -1,5 +1,6 @@
-import {addTask, setCompletenessFilter, setDueDateFilter, setSearchQuery} from './src/store.js'
+import {setCompletenessFilter, setDueDateFilter, setSearchQuery} from './src/store.js'
 import {renderTasks} from './src/renderTasks.js'
+import './src/addTask.js'
 
 const searchInput = document.querySelector('#search-input')
 searchInput.addEventListener('input', event => {
@@ -18,21 +19,5 @@ dueDateFilterSelect.addEventListener('change', event => {
   setDueDateFilter(event.target.value)
   renderTasks()
 })
-
-const addTaskInput = document.querySelector('#add-task-input')
-const addTaskButton = document.querySelector('#add-task-button')
-addTaskInput.addEventListener('keyup', event => {
-  if (event.key === 'Enter') {
-    addTaskAndUpdateUi()
-  }
-})
-addTaskButton.addEventListener('click', () => {
-  addTaskAndUpdateUi()
-})
-function addTaskAndUpdateUi() {
-  addTask(addTaskInput.value)
-  addTaskInput.value = ''
-  renderTasks()
-}
 
 renderTasks()
